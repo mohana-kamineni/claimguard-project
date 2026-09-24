@@ -24,7 +24,7 @@ def evaluate_claim(
     settings: Settings = Depends(get_settings),
 ) -> EvaluateResponse:
     result = evaluate(payload.amount, payload.category, payload.currency, settings)
-    # stdout so a local uvicorn run shows the live Expense→Policy JSON contract
+    
     print(
         "POLICY_CONTRACT request="
         f"{payload.model_dump(mode='json')} response={result.model_dump()}",

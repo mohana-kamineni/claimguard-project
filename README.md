@@ -169,7 +169,7 @@ kubectl apply -f k8s/expense-service.yaml
 ```
 
 ### 4. Verify Deployments
-Check that all pods reach the `Running` state:
+Check that all pods reach the `Running` state (press `Ctrl+C` to exit):
 ```bash
 kubectl get pods -w
 ```

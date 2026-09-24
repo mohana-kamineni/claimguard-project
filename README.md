@@ -116,7 +116,7 @@ Open `http://localhost:8000` in your browser to access the application dashboard
 
 ## Running with Docker
 
-You can build and run both microservices as standalone Docker containers:
+You can build both microservices as standalone Docker images:
 
 ### Build Images
 ```bash

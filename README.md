@@ -1,6 +1,6 @@
 # ClaimGuard
 
-ClaimGuard is a microservice-based expense reimbursement application. It allows employees to submit expense claims through a web interface or REST API. Each claim is evaluated by a separate, dedicated Policy service before being stored in a persistent PostgreSQL database.
+This is a microservice-based expense reimbursement application. It allows employees to submit expense claims through a web interface or REST API. Each claim is evaluated by a separate, dedicated Policy service before being stored in a persistent PostgreSQL database.
 
 ## Architecture
 

@@ -86,7 +86,7 @@ docker compose up -d db
 ```
 
 ### 2. Configure Environment Variables
-Copy `.env.example` to `.env` in the root directory:
+Copy the example environment file:
 ```bash
 cp .env.example .env
 ```
@@ -111,6 +111,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
+### 5. Access the Application
 Open `http://localhost:8000` in your browser to access the application dashboard.
 
 ## Running with Docker

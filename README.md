@@ -30,7 +30,7 @@ The system consists of two application microservices and one database service:
 ```
 
 * **Expense Service:** Provides the public-facing HTTP interface (both a Jinja2 web form and JSON REST endpoints). When an expense is submitted, Expense validates the payload and calls the Policy Service over HTTP. It only persists the claim to PostgreSQL if the Policy Service returns a valid decision (`allowed` or `denied`), saving a snapshot of the decision and reason codes.
-* **Policy Service:** A stateless rules engine that evaluates claim amount, category, and currency against configurable spending thresholds. It does not connect to the database.
+* **Policy Service:** A stateless rules engine that evaluates claim amount, category and currency against configurable spending thresholds. It does not connect to the database.
 * **PostgreSQL:** Stores the submitted claims. Runs as a dedicated container with a persistent volume to preserve data across container restarts.
 
 ## Technologies
@@ -203,7 +203,7 @@ pytest
 
 ## Notes
 
-* **Authentication:** There is no user authentication or login system implemented. Any `employee_id` can be entered in the form; this is an accepted simplification for this course project.
+* **Authentication:** There is no user authentication or login system implemented. Any `employee_id` can be entered in the form, this is an accepted simplification for this course project.
 * **Database Scaling:** PostgreSQL runs as a single replica backed by a `ReadWriteOnce` persistent volume claim. It is not horizontally scaled.
 * **Concurrent Startup:** Expense uses a PostgreSQL transaction-scoped advisory lock (`pg_advisory_xact_lock`) during startup to serialize table creation safely if multiple replicas launch at the same time.
 * **Service Networking:** Inside the Kubernetes cluster, Expense discovers the Policy service via internal cluster DNS (`http://policy:8000`), and PostgreSQL via `postgres:5432`.

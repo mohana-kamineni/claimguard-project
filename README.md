@@ -178,6 +178,7 @@ kubectl get pods -w
 The Expense service is exposed via NodePort on port `30080`.
 
 * **Direct NodePort:** `http://<node-ip>:30080/`
+  
   Find the node IP with:
   ```bash
   kubectl get nodes -o wide

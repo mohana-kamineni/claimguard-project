@@ -36,9 +36,9 @@ The system consists of two application microservices and one database service:
 ## Technologies
 
 * **Backend:** Python 3.12, FastAPI, Uvicorn
-* **HTTP Client:** HTTPX (synchronous)
-* **Database & ORM:** PostgreSQL 16, SQLAlchemy 2.0, Psycopg 3
 * **Frontend:** Jinja2 templates, HTML5, CSS
+* **Database & ORM:** PostgreSQL 16, SQLAlchemy 2.0, Psycopg 3
+* **HTTP Client:** HTTPX (synchronous)
 * **Testing:** Pytest
 * **Containers & Orchestration:** Docker, Docker Compose, Kubernetes
 
@@ -72,10 +72,15 @@ claimguard/
 ```
 
 ## Running Locally
-
 To run ClaimGuard directly on your host machine using Python virtual environments:
 
+### Prerequisites
+
+- Python 3.12+
+- Docker Desktop installed and running.
+
 ### 1. Start the PostgreSQL database
+From the repository root:
 ```bash
 docker compose up -d db
 ```

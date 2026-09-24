@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expense
+  labels:
+    app: expense
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expense
+  template:
+    metadata:
+      labels:
+        app: expense
+    spec:
+      containers:
+        - name: expense
+          image: mohanakamineni/claimguard-expense:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: DATABASE_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: DATABASE_PORT
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: DATABASE_NAME
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: claimguard-secret
+                  key: DATABASE_USER
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: claimguard-secret
+                  key: DATABASE_PASSWORD
+            - name: POLICY_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: POLICY_BASE_URL
+            - name: POLICY_HTTP_TIMEOUT_SECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: POLICY_HTTP_TIMEOUT_SECONDS
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5

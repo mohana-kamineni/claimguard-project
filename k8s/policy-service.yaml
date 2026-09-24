@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: policy
+  labels:
+    app: policy
+spec:
+  type: ClusterIP
+  selector:
+    app: policy
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: http

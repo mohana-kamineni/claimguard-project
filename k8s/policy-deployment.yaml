@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy
+  labels:
+    app: policy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policy
+  template:
+    metadata:
+      labels:
+        app: policy
+    spec:
+      containers:
+        - name: policy
+          image: mohanakamineni/claimguard-policy:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: POLICY_MAX_CLAIM_EUR
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: POLICY_MAX_CLAIM_EUR
+            - name: POLICY_MAX_MEALS_EUR
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: POLICY_MAX_MEALS_EUR
+            - name: POLICY_MAX_OTHER_EUR
+              valueFrom:
+                configMapKeyRef:
+                  name: claimguard-config
+                  key: POLICY_MAX_OTHER_EUR
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5

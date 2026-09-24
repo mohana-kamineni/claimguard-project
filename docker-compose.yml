@@ -1,0 +1,15 @@
+# Local PostgreSQL service for local development and testing
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: claimguard
+      POSTGRES_PASSWORD: change-me
+      POSTGRES_DB: claimguard
+    ports:
+      - "5432:5432"
+    volumes:
+      - claimguard-pgdata:/var/lib/postgresql/data
+
+volumes:
+  claimguard-pgdata:

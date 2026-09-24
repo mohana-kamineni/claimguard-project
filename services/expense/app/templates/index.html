@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClaimGuard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>ClaimGuard</h1>
+      <p>Submit an expense claim. Policy is evaluated by a separate service. There is no login: any employee id can be typed.</p>
+    </header>
+    <main>
+      {% if error == "invalid" %}
+      <p class="banner error" role="alert">The form was not valid. Amount must be greater than 0 and category must be travel, meals, office, or other. Nothing was sent to Policy and nothing was stored.</p>
+      {% elif error == "policy" %}
+      <p class="banner error" role="alert">Policy did not respond successfully. The claim was not stored.</p>
+      {% endif %}
+
+      <section>
+        <h2>New claim</h2>
+        <form method="post" action="/submit">
+          <label>Employee id <input name="employee_id" required maxlength="64" /></label>
+          <label>Amount (EUR) <input name="amount" type="number" step="0.01" min="0.01" required /></label>
+          <label>Category
+            <select name="category" required>
+              <option value="travel">travel</option>
+              <option value="meals">meals</option>
+              <option value="office">office</option>
+              <option value="other">other</option>
+            </select>
+          </label>
+          <label>Date <input name="claim_date" type="date" value="{{ today }}" required /></label>
+          <label>Description <input name="description" maxlength="500" /></label>
+          <button type="submit">Submit claim</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Stored claims</h2>
+        {% if claims %}
+        <table>
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Policy reasons</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for claim in claims %}
+            <tr>
+              <td>{{ claim.employee_id }}</td>
+              <td>{{ claim.amount }} {{ claim.currency }}</td>
+              <td>{{ claim.category }}</td>
+              <td>{{ claim.status }}</td>
+              <td>{{ claim.policy_reasons | join(", ") if claim.policy_reasons else "—" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No claims stored yet.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>
